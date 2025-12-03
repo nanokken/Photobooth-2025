@@ -9,7 +9,8 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/carousel" element={<PhotoCarousel />} />
+        <Route path="/choosecarousel" element={<PhotoCarousel />} />
+        <Route path="/carousel/:id" element={<PhotoCarousel />} />
       </Routes>
     </Router>
   );
