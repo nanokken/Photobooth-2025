@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+US+Trad:wght@100..400&display=swap');
+
+.photobooth {
+    background-color: #238566;
+    height: 100vh;
+}
+
+.heading {
+    font-family: "Playwrite US Trad";
+    font-size: 84px;
+    font-weight: 300;
+    color: #EEC25F;
+    margin: 10px;
+
+    text-shadow: -10px 0px 0 #96160F;
+
+    position: absolute;
+    top: 50px;
+    right: 300px;
+}
+
+.photoArea {
+    background-color: white;
+    width: 60vw;
+    height: 60vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -40%);
+    border: 6px solid #EEC25F;
+    border-radius: 2px;
+}

@@ -1,6 +1,16 @@
+import styles from "./photobooth.module.css"
+
+import Baubles from "../../components/baubles/Baubles";
+
 
 export default function Photobooth() {
 
-    return <h1>Photobooth</h1>
+    return (
+      <div className={styles.photobooth}>
+        <Baubles/>
+        <h1 className={styles.heading}>{`{Photo Booth}`}</h1>
+        <div className={styles.photoArea}></div>
+      </div>
+    );
 
 }
