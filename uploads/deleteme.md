@@ -1,1 +1,0 @@
-er her bare for at mappen er her
