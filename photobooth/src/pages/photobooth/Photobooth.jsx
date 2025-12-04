@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styles from "./photobooth.module.css";
 import Webcam from "react-webcam";
 import Baubles from "../../components/baubles/Baubles";
+import Button from "../../components/button/Button";
 
 export default function Photobooth() {
   const { id } = useParams();
@@ -63,6 +64,12 @@ export default function Photobooth() {
   if (loading) {
     return (
       <div className={styles.photobooth}>
+        <Baubles/>
+        <h1 className={styles.heading}>{`{Photo Booth}`}</h1>
+        <div className={styles.photoArea}></div>
+        <img src="images/photoboothDecor.png" alt="Christmas decoration" className={styles.decor} />
+        <Button type="manageFilter"/>
+        <Button type="submit"/>
         <Baubles />
         <div className={styles.loading}>Loading event...</div>
       </div>
