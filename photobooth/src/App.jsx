@@ -20,7 +20,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/carousel" element={<PhotoCarousel />} />
-        <Route path="/photobooth" element={<Photobooth />} />
+        <Route path="/photobooth/:id" element={<Photobooth />} />
         <Route path="/admin-event" element={<AdminEvent />} />
         <Route path="/admin-panel" element={<AdminPanel />} />
       </Routes>
