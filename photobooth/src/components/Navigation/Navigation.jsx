@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import styles from "../Navigation/Navigation.module.css";
+import { useAuth } from "../../utils/AuthContext";
+import styles from "./Navigation.module.css";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -12,30 +14,53 @@ export default function Navigation() {
   return (
     <nav className={styles.navbar}>
       {/* Burger Button */}
-      <button onClick={toggleMenu}>
-        <div></div>
-        <div></div>
-        <div></div>
+      <button
+        className={styles.burgerButton}
+        onClick={toggleMenu}
+        aria-label="Toggle menu"
+      >
+        <div className={`${styles.line} ${isOpen ? styles.line1 : ""}`}></div>
+        <div className={`${styles.line} ${isOpen ? styles.line2 : ""}`}></div>
+        <div className={`${styles.line} ${isOpen ? styles.line3 : ""}`}></div>
       </button>
 
       {/* Menu Items */}
-      <div>
+      <div className={`${styles.menu} ${isOpen ? styles.menuOpen : ""}`}>
         <Link
           to="/"
+          className={styles.menuItem}
           onClick={() => setIsOpen(false)}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#555")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "transparent")}
         >
-          Home
+          🏠 Home
         </Link>
-        <Link
-          to="/login"
-          onClick={() => setIsOpen(false)}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#555")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "transparent")}
-        >
-          Login
-        </Link>
+        {isLoggedIn ? (
+          <>
+            <Link
+              to="/admin-panel"
+              className={styles.menuItem}
+              onClick={() => setIsOpen(false)}
+            >
+              ⚙️ Admin Panel
+            </Link>
+            <button
+              className={styles.logoutButton}
+              onClick={() => {
+                logout();
+                setIsOpen(false);
+              }}
+            >
+              🚪 Logout
+            </button>
+          </>
+        ) : (
+          <Link
+            to="/login"
+            className={styles.menuItem}
+            onClick={() => setIsOpen(false)}
+          >
+            🔑 Login
+          </Link>
+        )}
       </div>
     </nav>
   );
