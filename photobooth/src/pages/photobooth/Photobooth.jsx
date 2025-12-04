@@ -86,6 +86,7 @@ export default function Photobooth() {
         <Webcam
           audio={false}
           ref={webcamRef}
+          mirrored={true}
           screenshotFormat="image/jpeg"
           className={styles.webcam}
         />
