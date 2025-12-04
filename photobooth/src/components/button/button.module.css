@@ -6,6 +6,12 @@
     left: 50%;
     transform: translateX(-50%);
     top: 40vh;
+    transition: 0.05s;
+}
+
+.buttonContainer:hover {
+    scale: 1.01;
+    cursor: pointer;
 }
 
 .btnSubmit {
@@ -94,6 +100,11 @@
     padding: 0 12% ;
 }
 
+.prevFilter:hover, .nextFilter:hover {
+    cursor: pointer;
+    scale: 1.04;
+}
+
 .prevFilter, .nextFilter {
     padding: 20px 25px;
     padding-top: 30px;
@@ -101,6 +112,8 @@
     border-radius: 3px;
     border: none;
     background-color: #1f2766;
+    transition: 0.05s;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.6);
 }
 
 .ribbonBow3 {
