@@ -1,9 +1,11 @@
+/* container kuglerne placeres i */
 .baubles {
   position: relative;
   width: 200px;   
   height: 200px;
 }
 
+/* laver kuglen */
 .bauble {
   position: absolute;
   width: 110px;
@@ -14,6 +16,7 @@
   align-items: flex-start;
 }
 
+/* Laver et pseudoelemnt som styles til at være snoren */
 .bauble::before {
   content: "";
   position: absolute;
@@ -23,6 +26,7 @@
   background: #e3e3e3;
 }
 
+/* styling af grå kugle */
 .bauble.grey {
   background: #dcdcdc;   
   z-index: 2;
@@ -30,6 +34,7 @@
   top: 110px;
 }
 
+/* styling af gul kugle */
 .bauble.yellow {
   background: #f3c552;
   left: 150px;
