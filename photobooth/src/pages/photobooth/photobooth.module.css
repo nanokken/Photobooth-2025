@@ -3,6 +3,7 @@
 .photobooth {
     background-color: #238566;
     height: 100vh;
+
 }
 
 .heading {
@@ -15,7 +16,7 @@
     text-shadow: -10px 0px 0 #96160F;
 
     position: absolute;
-    top: 50px;
+    top: 10px;
     right: 300px;
 }
 
@@ -25,9 +26,16 @@
     height: 60vh;
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 45%;
     transform: translate(-50%, -40%);
     border: 6px solid #EEC25F;
     border-radius: 2px;
 }
 
+.decor {
+    position: absolute;
+    width: 25vw;
+    top: 11vh;
+    left: 14vw;
+    z-index: 3;
+}
