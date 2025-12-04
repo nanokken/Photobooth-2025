@@ -13,7 +13,7 @@ export default function Button({ type, onClick }) {
           <div className={styles.vertRibbon}></div>
           <div className={styles.horiRibbon}></div>
           <img
-            src="images/ribbonBow.png"
+            src="/images/ribbonBow.png"
             alt="bow"
             className={styles.ribbonBow}
           />
@@ -50,7 +50,7 @@ export default function Button({ type, onClick }) {
           <div className={styles.vertRibbon2}></div>
           <div className={styles.horiRibbon}></div>
           <img
-            src="images/ribbonBow.png"
+            src="/images/ribbonBow.png"
             alt="bow"
             className={styles.ribbonBow2}
           />

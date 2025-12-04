@@ -5,7 +5,7 @@
     height: 110px;
     left: 50%;
     transform: translateX(-50%);
-    top: 48vh;
+    top: 40vh;
 }
 
 .btnSubmit {
@@ -87,11 +87,11 @@
 .prevNextContainer {
     /* placerer frem og tilbage knappers højde på side - padding påvirker hvor langt inde på siden de står*/
     position: relative;
-    top: 35vh;
+    top: 25vh;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 11.5% ;
+    padding: 0 12% ;
 }
 
 .prevFilter, .nextFilter {

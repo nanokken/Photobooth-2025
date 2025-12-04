@@ -70,7 +70,6 @@ export default function Photobooth() {
         <img src="images/photoboothDecor.png" alt="Christmas decoration" className={styles.decor} />
         <Button type="manageFilter"/>
         <Button type="submit"/>
-        <Baubles />
         <div className={styles.loading}>Loading event...</div>
       </div>
     );
@@ -98,9 +97,13 @@ export default function Photobooth() {
           className={styles.webcam}
         />
       </div>
-      <button className={styles.captureButton} onClick={capturePhoto}>
-        📸 Tag et billede
-      </button>
+      <img
+        src="/images/photoboothDecor.png"
+        alt="Christmas decoration"
+        className={styles.decor}
+      />
+      <Button type="manageFilter" />
+      <Button type="submit" onClick={capturePhoto} />
 
       {capturedImage && (
         <div className={styles.previewArea}>
