@@ -96,56 +96,25 @@ body {
   color: #ff6b6b;
 }
 
-.captureButton {
-  position: absolute;
-  top: calc(50% + calc(60vw * 9 / 16 / 2) + 20px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, #dc143c, #b91c3c);
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-
-.captureButton:hover {
-  background: linear-gradient(135deg, #b91c3c, #991b1b);
-  transform: translateX(-50%) translateY(-3px);
-  box-shadow: 0 6px 20px rgba(220, 20, 60, 0.6);
-}
-
-.captureButton:active {
-  transform: translateX(-50%) translateY(0);
-}
-
-.previewArea {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 1rem;
-  border-radius: 10px;
-  color: white;
-  text-align: center;
-}
-
-.previewArea h3 {
-  margin: 0 0 10px 0;
-  font-size: 1rem;
-}
-
 .preview {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
   bottom: 0;
-  width: 100%;
+  right: 0;
   z-index: 5;
+}
+
+.countdown {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 60px;
+    font-family: "Playwrite US Trad";
+    font-weight: 400;
+    -webkit-text-stroke: #eec25f 5px;
+    color: #eec25f;
+    z-index: 6;
 }

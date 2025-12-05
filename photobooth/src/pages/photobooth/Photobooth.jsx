@@ -37,6 +37,9 @@ export default function Photobooth() {
   const [capturedImage, setCapturedImage] = useState(null);
   const webcamRef = useRef(null);
   const [filterIndex, setFilterIndex] = useState(0)
+  const timerRef = useRef(null);
+  const [countdown, setCountdown] = useState(null);
+
 
   useEffect(() => {
     if (id) {
@@ -81,29 +84,46 @@ export default function Photobooth() {
   };
 
   const capturePhoto = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
+    setCountdown(3);
 
-    const img = new Image()
-    img.src = imageSrc
-
-    const filter = new Image()
-    filter.src = filters[filterIndex]
-
-    img.onload = () => {
-        const canvas = document.createElement("canvas")
-        canvas.width = img.width
-        canvas.height = img.height
-        const ctx = canvas.getContext("2d")
-
-        ctx.drawImage(img, 0, 0)
-
-        ctx.drawImage(filter, 0, 0, img.width, img.height)
-
-        const finalImage = canvas.toDataURL("image/jpeg")
-
-        setCapturedImage(finalImage)
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
     }
+
+    timerRef.current = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev === 1) {
+          clearInterval(timerRef.current);
+          const imageSrc = webcamRef.current.getScreenshot();
+            const img = new Image()
+            img.src = imageSrc
+
+            const filter = new Image()
+            filter.src = filters[filterIndex]
+
+            img.onload = () => {
+                const canvas = document.createElement("canvas")
+                canvas.width = img.width
+                canvas.height = img.height
+                const ctx = canvas.getContext("2d")
+
+                ctx.drawImage(img, 0, 0, img.width, img.height)
+
+                ctx.drawImage(filter, 0, 0, img.width, img.height);
+
+                const finalImage = canvas.toDataURL("image/jpeg")
+
+                setCapturedImage(finalImage)
+            };
+
+          return null;
+        }
+
+        return prev - 1;
+      });
+    }, 1000);
   };
+
 
   if (loading) {
     return (
@@ -145,6 +165,9 @@ export default function Photobooth() {
           alt={`Filter ${filterIndex}`}
           className={styles.filter}
         />
+        {countdown && (
+            <div className={styles.countdown}>{countdown}</div>
+        )}
         {capturedImage && (
         <img
             src={capturedImage}
