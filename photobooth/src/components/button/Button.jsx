@@ -43,8 +43,10 @@ export default function Button({ type, onClick, onClick1, onClick2 }) {
 
       {type === "confirmOrDelete" && (
         <div className={styles.buttonContainer}>
-          <button className={styles.confirmOrDelete} onClick={onClick}>
+          <button className={styles.confirm} onClick={onClick1}>
             <p>Godkend</p>
+          </button>
+          <button className={styles.delete} onClick={onClick2}>
             <p>Slet</p>
           </button>
           <div className={styles.vertRibbon2}></div>
