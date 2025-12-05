@@ -11,6 +11,8 @@ export default function Photobooth() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [capturedImage, setCapturedImage] = useState(null);
+  const [countdown, setCountdown] = useState(null);
+
   const webcamRef = useRef(null);
 
   useEffect(() => {
@@ -55,21 +57,42 @@ export default function Photobooth() {
     }
   };
 
+  const timerRef = useRef(null);
+
   const capturePhoto = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setCapturedImage(imageSrc);
-    console.log("Photo captured:", imageSrc);
+    setCountdown(3);
+
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+
+    timerRef.current = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev === 1) {
+          clearInterval(timerRef.current);
+          const imageSrc = webcamRef.current.getScreenshot();
+          setCapturedImage(imageSrc);
+          console.log("Photo captured:", imageSrc);
+          return null;
+        }
+        return prev - 1;
+      });
+    }, 1000);
   };
 
   if (loading) {
     return (
       <div className={styles.photobooth}>
-        <Baubles/>
+        <Baubles />
         <h1 className={styles.heading}>{`{Photo Booth}`}</h1>
         <div className={styles.photoArea}></div>
-        <img src="images/photoboothDecor.png" alt="Christmas decoration" className={styles.decor} />
-        <Button type="manageFilter"/>
-        <Button type="submit"/>
+        <img
+          src="images/photoboothDecor.png"
+          alt="Christmas decoration"
+          className={styles.decor}
+        />
+        <Button type="manageFilter" />
+        <Button type="submit" />
         <div className={styles.loading}>Loading event...</div>
       </div>
     );
@@ -89,6 +112,9 @@ export default function Photobooth() {
       <Baubles />
       <h1 className={styles.heading}>{`{${currentEvent.title || "Event"}}`}</h1>
       <div className={styles.photoArea}>
+        {countdown !== null && (
+          <div className={styles.countdown}>{countdown}</div>
+        )}
         <Webcam
           audio={false}
           ref={webcamRef}
@@ -103,7 +129,11 @@ export default function Photobooth() {
         className={styles.decor}
       />
       <Button type="manageFilter" />
-      <Button type="submit" onClick={capturePhoto} />
+      <Button
+        type="submit"
+        onClick={capturePhoto}
+        disabled={countdown !== null}
+      />
 
       {capturedImage && (
         <div className={styles.previewArea}>

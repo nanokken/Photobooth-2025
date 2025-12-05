@@ -6,8 +6,8 @@
   position: relative;
 }
 
-body { 
-    background-color: #238566;
+body {
+  background-color: #238566;
 }
 
 .heading {
@@ -40,11 +40,11 @@ body {
 }
 
 .decor {
-    position: absolute;
-    width: 25vw;
-    top: 0;
-    left: 14vw;
-    z-index: 3;
+  position: absolute;
+  width: 25vw;
+  top: 0;
+  left: 14vw;
+  z-index: 3;
 }
 .webcam {
   width: 100%;
@@ -131,4 +131,20 @@ body {
   height: auto;
   border-radius: 5px;
   border: 2px solid #eec25f;
+}
+
+.countdown {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 8rem;
+  font-weight: bold;
+
+  color: white;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+
+  animation: pop 0.3s ease-in-out;
 }
