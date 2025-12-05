@@ -5,6 +5,30 @@ import Webcam from "react-webcam";
 import Baubles from "../../components/baubles/Baubles";
 import Button from "../../components/button/Button";
 
+import filter1 from "../../assets/Filter/filter1.png";
+import filter2 from "../../assets/Filter/filter2.png";
+import filter3 from "../../assets/Filter/filter3.png";
+import filter4 from "../../assets/Filter/filter4.png";
+import filter5 from "../../assets/Filter/filter5.png";
+import filter6 from "../../assets/Filter/filter6.png";
+import filter7 from "../../assets/Filter/filter7.png";
+import filter8 from "../../assets/Filter/filter8.png";
+import filter9 from "../../assets/Filter/filter9.png";
+import filter10 from "../../assets/Filter/filter10.png";
+
+const filters = [
+    filter1,
+    filter2,
+    filter3,
+    filter4,
+    filter5,
+    filter6,
+    filter7,
+    filter8,
+    filter9,
+    filter10,
+]
+
 export default function Photobooth() {
   const { id } = useParams();
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -12,6 +36,7 @@ export default function Photobooth() {
   const [error, setError] = useState("");
   const [capturedImage, setCapturedImage] = useState(null);
   const webcamRef = useRef(null);
+  const [filterIndex, setFilterIndex] = useState(0)
 
   useEffect(() => {
     if (id) {
@@ -57,8 +82,27 @@ export default function Photobooth() {
 
   const capturePhoto = () => {
     const imageSrc = webcamRef.current.getScreenshot();
-    setCapturedImage(imageSrc);
-    console.log("Photo captured:", imageSrc);
+
+    const img = new Image()
+    img.src = imageSrc
+
+    const filter = new Image()
+    filter.src = filters[filterIndex]
+
+    img.onload = () => {
+        const canvas = document.createElement("canvas")
+        canvas.width = img.width
+        canvas.height = img.height
+        const ctx = canvas.getContext("2d")
+
+        ctx.drawImage(img, 0, 0)
+
+        ctx.drawImage(filter, 0, 0, img.width, img.height)
+
+        const finalImage = canvas.toDataURL("image/jpeg")
+
+        setCapturedImage(finalImage)
+    }
   };
 
   if (loading) {
@@ -96,20 +140,41 @@ export default function Photobooth() {
           screenshotFormat="image/jpeg"
           className={styles.webcam}
         />
+        <img
+          src={filters[filterIndex]}
+          alt={`Filter ${filterIndex}`}
+          className={styles.filter}
+        />
+        {capturedImage && (
+        <img
+            src={capturedImage}
+            alt="Captured"
+            className={styles.preview}
+        />
+        )}
       </div>
       <img
         src="/images/photoboothDecor.png"
         alt="Christmas decoration"
         className={styles.decor}
       />
-      <Button type="manageFilter" />
-      <Button type="submit" onClick={capturePhoto} />
+      <Button
+        type="manageFilter"
+        onClick1={() => {
+          setFilterIndex((prev) => (prev + 1) % filters.length);
+        }}
+        onClick2={() => {
+          setFilterIndex(
+            (prev) => (prev - 1 + filters.length) % filters.length
+          );
+        }}
+      />
+      {!capturedImage && (
+          <Button type="submit" onClick={capturePhoto} />
+      )}
 
       {capturedImage && (
-        <div className={styles.previewArea}>
-          <h3>Dit billede:</h3>
-          <img src={capturedImage} alt="Captured" className={styles.preview} />
-        </div>
+        <Button type="confirmOrDelete" />
       )}
     </div>
   );

@@ -2,7 +2,7 @@ import styles from "./button.module.css"
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 
-export default function Button({ type, onClick }) {
+export default function Button({ type, onClick, onClick1, onClick2 }) {
   return (
     <>
       {type === "submit" && (
@@ -22,7 +22,7 @@ export default function Button({ type, onClick }) {
 
       {type === "manageFilter" && (
         <div className={styles.prevNextContainer}>
-          <button className={styles.prevFilter} onClick={onClick}>
+          <button className={styles.prevFilter} onClick={onClick2}>
             <FaArrowLeft fontSize={20} color="#EEC25F" />
             <img
               src="/images/ribbonBow.png"
@@ -30,7 +30,7 @@ export default function Button({ type, onClick }) {
               className={styles.ribbonBow3}
             />
           </button>
-          <button className={styles.nextFilter} onClick={onClick}>
+          <button className={styles.nextFilter} onClick={onClick1}>
             <FaArrowRight fontSize={20} color="#EEC25F" />
             <img
               src="/images/ribbonBow.png"
