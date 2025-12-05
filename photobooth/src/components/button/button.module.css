@@ -63,23 +63,36 @@
     transform: translate(-44%, -30%);
 }
 
-.confirmOrDelete {
+.confirm, .delete {
+    width: 50%;
     height: 100%;
-    width: 100%;
     background-color: #1f2766;
     border: none;
     border-radius: 2px;
     position: absolute;
-    font-size: 45px;
-    font-family: "Playwrite US Trad";
-    color: #EEC25F;
     display: flex;
-    justify-content: space-between;
     align-items: end;
-    line-height: 1;
-    padding: 5px 70px;
-    padding-right: 100px;
-    box-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+    justify-content: center;
+    padding: 0px;
+    color: #EEC25F;
+    font-family: "Playwrite US Trad";
+    font-size: 30px;
+}
+
+.confirm {
+    left: 0;
+}
+
+.delete {
+    right: 0 ;
+}
+
+.confirm p:hover {
+    font-size: 34px;
+}
+
+.delete p:hover {
+    font-size: 34px;
 }
 
 .vertRibbon2 {
