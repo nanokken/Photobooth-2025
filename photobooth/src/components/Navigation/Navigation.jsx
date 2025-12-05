@@ -5,10 +5,41 @@ import styles from "./Navigation.module.css";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoggedIn, logout } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { isLoggedIn, login, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogin = async () => {
+    setError("");
+    const result = await login(email, password);
+
+    if (!result.success) {
+      setError(result.message);
+    } else {
+      // Clear form and close login
+      setEmail("");
+      setPassword("");
+      setShowLogin(false);
+      setIsOpen(false);
+    }
+  };
+
+  const openLogin = () => {
+    setShowLogin(true);
+    setError("");
+  };
+
+  const closeLogin = () => {
+    setShowLogin(false);
+    setEmail("");
+    setPassword("");
+    setError("");
   };
 
   return (
@@ -33,6 +64,13 @@ export default function Navigation() {
         >
           🏠 Home
         </Link>
+        <Link
+          to="/carousel"
+          className={styles.menuItem}
+          onClick={() => setIsOpen(false)}
+        >
+          📸 Carousel
+        </Link>
         {isLoggedIn ? (
           <>
             <Link
@@ -53,15 +91,53 @@ export default function Navigation() {
             </button>
           </>
         ) : (
-          <Link
-            to="/login"
-            className={styles.menuItem}
-            onClick={() => setIsOpen(false)}
-          >
+          <button className={styles.loginTrigger} onClick={openLogin}>
             🔑 Login
-          </Link>
+          </button>
         )}
       </div>
+
+      {/* Login Modal */}
+      {showLogin && !isLoggedIn && (
+        <div className={styles.loginModal}>
+          <div className={styles.loginBox}>
+            <button className={styles.closeButton} onClick={closeLogin}>
+              ×
+            </button>
+            <h3>Login</h3>
+            <div className={styles.inputArea}>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                placeholder="admin@mediacollege.dk"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className={styles.inputArea}>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                placeholder="admin"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            {error && <p className={styles.error}>{error}</p>}
+            <button className={styles.loginButton} onClick={handleLogin}>
+              Login
+            </button>
+            <p className={styles.hint}>
+              Try: admin@mediacollege.dk / admin or guest@mediacollege.dk /
+              guest
+            </p>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

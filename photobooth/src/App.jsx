@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { AuthProvider } from "./utils/AuthContext";
+import { AuthProvider } from "./utils/AuthContext.jsx";
 import Navigation from "./components/Navigation/Navigation";
-import Login from "./components/Login/Login";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 // Importing the pages
 import Home from "./pages/Home/Home";
@@ -18,11 +18,24 @@ export default function App() {
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/carousel" element={<PhotoCarousel />} />
           <Route path="/photobooth/:id" element={<Photobooth />} />
-          <Route path="/admin-event" element={<AdminEvent />} />
-          <Route path="/admin-panel" element={<AdminPanel />} />
+          <Route
+            path="/admin-event"
+            element={
+              <ProtectedRoute>
+                <AdminEvent />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-panel"
+            element={
+              <ProtectedRoute>
+                <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </AuthProvider>
