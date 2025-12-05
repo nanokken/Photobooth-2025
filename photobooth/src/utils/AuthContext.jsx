@@ -94,6 +94,11 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setIsLoggedIn(false);
     localStorage.removeItem("authToken");
+
+    // Redirect to home if on admin page
+    if (window.location.pathname.startsWith("/admin")) {
+      window.location.href = "/";
+    }
   };
 
   const value = {
