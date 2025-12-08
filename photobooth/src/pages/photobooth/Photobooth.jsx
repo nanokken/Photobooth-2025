@@ -143,10 +143,12 @@ export default function Photobooth() {
 
   /* CLICK EVENT TIL CONFIRM KNAP */
   const confirmPreview = async () => {
-
+    /* react webcam giver base64 data-URL, men backend forventer en fil, så strengen konverteres til blob "Binary large object" før den sendes til API - tldr: base64-billede => normal billedefil */
     const blob = await (await fetch(capturedImage)).blob();
 
+    /* opretter formData */
     const formData = new FormData()
+    /* tilføjer felter til formDtaa */
     formData.append("file", blob)
     formData.append("eventSlug", currentEvent.slug)
     formData.append("eventId", currentEvent._id)
