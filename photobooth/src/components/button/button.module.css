@@ -2,16 +2,17 @@
     /* Placer knappen med container, resten er placeret relativt til container !!!BUTTONCONTAINER ER KUN TIL STOR KNAP UNDER PHOTOAREA!!!! */
     position: relative;
     width: 700px;
+    max-width: 60vw;
     height: 110px;
     left: 50%;
     transform: translateX(-50%);
-    top: 40vh;
+    bottom: -55vh;
     transition: 0.05s;
+    cursor:pointer;
 }
 
 .buttonContainer:hover {
     scale: 1.01;
-    cursor: pointer;
 }
 
 .btnSubmit {
@@ -20,15 +21,14 @@
     background-color: #1f2766;
     border: none;
     border-radius: 2px;
-    position: absolute;
-    font-size: 45px;
+    font-size: clamp(20px, 5vw, 45px);
     font-family: "Playwrite US Trad";
     color: #EEC25F;
     display: flex;
     justify-content: end;
     align-items: end;
     line-height: 1;
-    padding: 5px 180px;
+    padding: 5px 50px;
     box-shadow: 1px 1px 5px rgba(0,0,0,0.6);
     cursor: pointer;
 }
@@ -36,6 +36,7 @@
 .vertRibbon{
     position: absolute;
     left: 200px;
+    bottom: 0;
     width: 20px;
     height: 100%;
     background-color: #96160F;

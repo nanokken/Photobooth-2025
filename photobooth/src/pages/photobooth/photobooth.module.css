@@ -31,20 +31,19 @@ body {
   width: 60vw;
   height: calc(60vw * 9 / 16); /* 16:9 aspect ratio */
   position: absolute;
-  left: 50%;
-  top: 40.5%;
+  left: 50vw;
+  top: 45vh;
   transform: translate(-50%, -50%);
   border: 6px solid #eec25f;
-  border-radius: 2px;
-  overflow: hidden; /* Hide any overflow */
+  border-radius: 2px; /* Hide any overflow */
 }
 
 .decor {
     position: absolute;
     width: 25vw;
-    top: 0;
-    left: 14vw;
-    z-index: 3;
+    top: -16%;
+    left: -9%;
+    z-index: 5;
 }
 
 .filter {
