@@ -17,7 +17,11 @@ import filter7 from "../../assets/Filter/filter7.png";
 import filter8 from "../../assets/Filter/filter8.png";
 import filter9 from "../../assets/Filter/filter9.png";
 import filter10 from "../../assets/Filter/filter10.png";
-/*  */
+import filter11 from "../../assets/Filter/filter11.png";
+import filter12 from "../../assets/Filter/filter12.png";
+import filter13 from "../../assets/filter/filter13.png";
+import filter14 from "../../assets/Filter/filter14.png";
+import filter15 from "../../assets/Filter/filter15.png";
 
 /* henter filtre ned i et array */
 const filters = [
@@ -31,6 +35,11 @@ const filters = [
     filter8,
     filter9,
     filter10,
+    filter11,
+    filter12,
+    filter13,
+    filter14,
+    filter15
 ]
 
 export default function Photobooth() {
