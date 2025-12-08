@@ -20,6 +20,9 @@ import filter12 from "../../assets/Filter/filter12.png";
 import filter13 from "../../assets/filter/filter13.png";
 import filter14 from "../../assets/Filter/filter14.png";
 import filter15 from "../../assets/Filter/filter15.png";
+import filter16 from "../../assets/Filter/filter16.png";
+import filter17 from "../../assets/Filter/filter17.png";
+import filter18 from "../../assets/Filter/filter18.png";
 
 const filters = [
     filter1,
@@ -36,7 +39,10 @@ const filters = [
     filter12,
     filter13,
     filter14,
-    filter15
+    filter15,
+    filter16,
+    filter17,
+    filter18,
 ]
 
 export default function Photobooth() {
