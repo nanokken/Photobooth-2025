@@ -251,13 +251,13 @@ export default function Photobooth() {
         {capturedImage && (
           <img src={capturedImage} alt="Captured" className={styles.preview} />
         )}
-      </div>
       {/* dekorationen i venstre øvre hjørne af webcammet */}
       <img
         src="/images/photoboothDecor.png"
         alt="Christmas decoration"
         className={styles.decor}
       />
+      </div>
       {/* knapperne til at gå til næste eller sidste filter */}
       <Button
         type="manageFilter"
