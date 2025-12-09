@@ -80,6 +80,16 @@ export default function Navigation() {
             >
               ⚙️ Admin Panel
             </Link>
+
+            {/* 👇 AICI E NOUL LINK CĂTRE PAGINA DE EVENTURI */}
+            <Link
+              to="/admin-event"
+              className={styles.menuItem}
+              onClick={() => setIsOpen(false)}
+            >
+              🎄 Admin Events
+            </Link>
+
             <button
               className={styles.logoutButton}
               onClick={() => {

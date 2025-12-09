@@ -64,6 +64,8 @@ export default function AdminPanel() {
 
   }, [selectedEventId]);
 
+  // Fetch photos for selected event
+
   const fetchPhotosForEvent = async (eventObj) => {
     setLoadingPhotos(true);
     setPhotoMessage("");
@@ -99,6 +101,8 @@ export default function AdminPanel() {
     }
   };
 
+  // Delete photo
+
   const handleDeletePhoto = async (photoId) => {
     if (!selectedEvent) return;
     if (!window.confirm("Slet dette billede?")) return;
@@ -132,6 +136,8 @@ export default function AdminPanel() {
       setDeletingPhotoId(null);
     }
   };
+
+  // Render component
 
   return (
     <div className={styles.container}>

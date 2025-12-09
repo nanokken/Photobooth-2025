@@ -14,6 +14,8 @@ export default function PhotoCarousel() {
   const [error, setError] = useState("");
   const [confetti, setConfetti] = useState([]);
 
+  // Trigger confetti animation
+
   const triggerConfetti = () => {
     // generate confetti
     const pieces = Array.from({ length: 60 }).map(() => ({
@@ -31,11 +33,10 @@ export default function PhotoCarousel() {
 
     setConfetti(pieces);
 
-    // confetti stop 4.5sec
     setTimeout(() => setConfetti([]), 4500);
   };
 
-  // FETCH PHOTOS
+  // FETCH PHOTOS FOR EVENT
   useEffect(() => {
     const fetchPhotos = async () => {
       if (!eventSlug) {
@@ -47,6 +48,8 @@ export default function PhotoCarousel() {
       setLoading(true);
       setError("");
       setPhotos([]);
+
+      // Fetch from API
 
       try {
         console.log("Carousel – using eventSlug:", eventSlug);
