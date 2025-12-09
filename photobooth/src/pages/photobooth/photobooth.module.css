@@ -28,14 +28,15 @@ body {
 
 .photoArea {
   background-color: white;
-  width: 60vw;
-  height: calc(60vw * 9 / 16); /* 16:9 aspect ratio */
+  width: 920px;
+  height: calc(920px * 9 / 16); /* 16:9 aspect ratio */
   position: absolute;
   left: 50vw;
   top: 45vh;
   transform: translate(-50%, -50%);
   border: 6px solid #eec25f;
-  border-radius: 2px; /* Hide any overflow */
+  border-radius: 2px;
+
 }
 
 .decor {
@@ -52,8 +53,8 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-
     width: 100%;
+    height: 100%;
 
     
     z-index: 3;
@@ -101,6 +102,8 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
+  width: 100%;
+  height: 100%;
   z-index: 5;
 }
 

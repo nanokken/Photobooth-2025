@@ -126,13 +126,13 @@ export default function Photobooth() {
 
           img.onload = () => {
             const canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
+            canvas.width = 918;
+            canvas.height = 918 * 9 / 16;
             const ctx = canvas.getContext("2d");
 
-            ctx.drawImage(img, 0, 0, img.width, img.height);
+            ctx.drawImage(img, 0, 0, 920, 920 * 9 / 16);
 
-            ctx.drawImage(filter, 0, 0, img.width, img.height);
+            ctx.drawImage(filter, 0, 0, 920, 920 * 9 / 16);
 
             const finalImage = canvas.toDataURL("image/jpeg");
 
@@ -164,9 +164,10 @@ export default function Photobooth() {
     /* opretter formData */
     const formData = new FormData()
     /* tilføjer felter til formDtaa */
-    formData.append("file", blob)
+    formData.append("file", blob, "photo.jpg")
     formData.append("eventSlug", currentEvent.slug)
     formData.append("eventId", currentEvent._id)
+    formData.append("isApproved", true)
 
     try {
       const response = await fetch(
@@ -236,7 +237,8 @@ export default function Photobooth() {
           mirrored={true}
           screenshotFormat="image/jpeg"
           className={styles.webcam}
-        />}
+        />
+        }
         {/* filter-billedet */}
         <img
           src={filters[filterIndex]}
@@ -259,6 +261,7 @@ export default function Photobooth() {
       />
       </div>
       {/* knapperne til at gå til næste eller sidste filter */}
+      {!capturedImage && !countdown && 
       <Button
         type="manageFilter"
         onClick1={() => {
@@ -269,7 +272,7 @@ export default function Photobooth() {
             (prev) => (prev - 1 + filters.length) % filters.length
           );
         }}
-      />
+      />}
       {/* load knappen til at tage billede når der ikke er preview image */}
       {!capturedImage && (
           <Button type="submit" onClick={capturePhoto} />

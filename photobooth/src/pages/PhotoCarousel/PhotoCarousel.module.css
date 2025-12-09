@@ -68,22 +68,6 @@
   pointer-events: none;
 }
 
-/* glbs */
-.topDecor::before {
-  content: "";
-  position: absolute;
-  top: 40px;
-  left: -20px;
-  width: 260px;
-  height: 60px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 10% 30%, #2f6b3b 0, #2f6b3b 40%, transparent 60%),
-    radial-gradient(circle at 35% 50%, #3f8f4d 0, #3f8f4d 40%, transparent 60%),
-    radial-gradient(circle at 65% 40%, #347742 0, #347742 40%, transparent 60%),
-    radial-gradient(circle at 90% 50%, #3a8a4a 0, #3a8a4a 40%, transparent 60%);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-
 /* globes */
 .topDecor::after {
   content: "";
