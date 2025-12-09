@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import React, { useEffect, useState } from "react";
 import styles from "./AdminEvent.module.css";
 
@@ -274,4 +272,3 @@ export default function AdminEvent() {
     </div>
   );
 }
->>>>>>> Stashed changes

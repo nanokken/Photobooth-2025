@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
-=======
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import styles from "./PhotoCarousel.module.css";
 
@@ -196,4 +194,3 @@ export default function PhotoCarousel() {
     </div>
   );
 }
->>>>>>> Stashed changes

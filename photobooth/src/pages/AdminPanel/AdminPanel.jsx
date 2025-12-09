@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./AdminPanel.module.css";
@@ -240,4 +238,3 @@ export default function AdminPanel() {
     </div>
   );
 }
->>>>>>> Stashed changes
