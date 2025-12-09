@@ -1,0 +1,138 @@
+.buttonContainer {
+    /* Placer knappen med container, resten er placeret relativt til container !!!BUTTONCONTAINER ER KUN TIL STOR KNAP UNDER PHOTOAREA!!!! */
+    position: relative;
+    width: 700px;
+    max-width: 60vw;
+    height: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -55vh;
+    transition: 0.05s;
+    cursor:pointer;
+}
+
+.buttonContainer:hover {
+    scale: 1.01;
+}
+
+.btnSubmit {
+    height: 100%;
+    width: 100%;
+    background-color: #1f2766;
+    border: none;
+    border-radius: 2px;
+    font-size: clamp(20px, 5vw, 45px);
+    font-family: "Playwrite US Trad";
+    color: #EEC25F;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    line-height: 1;
+    padding: 5px 50px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+    cursor: pointer;
+}
+
+.vertRibbon{
+    position: absolute;
+    left: 200px;
+    bottom: 0;
+    width: 20px;
+    height: 100%;
+    background-color: #96160F;
+}
+.horiRibbon{
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    height: 30px;
+    background-color: #96160F;
+}
+
+.ribbonBow {
+    position: absolute;
+    top: 20px;
+    left: 200px;
+    width: 140px;
+    transform: translate(-44%, -30%);
+}
+.ribbonBow2 {
+    position: absolute;
+    top: 20px;
+    left: 49%;
+    width: 140px;
+    transform: translate(-44%, -30%);
+}
+
+.confirm, .delete {
+    width: 50%;
+    height: 100%;
+    background-color: #1f2766;
+    border: none;
+    border-radius: 2px;
+    position: absolute;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    padding: 0px;
+    color: #EEC25F;
+    font-family: "Playwrite US Trad";
+    font-size: 30px;
+}
+
+.confirm {
+    left: 0;
+}
+
+.delete {
+    right: 0 ;
+}
+
+.confirm p:hover {
+    font-size: 34px;
+}
+
+.delete p:hover {
+    font-size: 34px;
+}
+
+.vertRibbon2 {
+    position: absolute;
+    left: 49%;
+    width: 20px;
+    height: 100%;
+    background-color: #96160F;
+}
+
+.prevNextContainer {
+    /* placerer frem og tilbage knappers højde på side - padding påvirker hvor langt inde på siden de står*/
+    position: relative;
+    top: 25vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 12%;
+}
+
+.prevFilter:hover, .nextFilter:hover {
+    cursor: pointer;
+    scale: 1.04;
+}
+
+.prevFilter, .nextFilter {
+    padding: 20px 25px;
+    padding-top: 30px;
+    position: relative;
+    border-radius: 3px;
+    border: none;
+    background-color: #1f2766;
+    transition: 0.05s;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
+
+.ribbonBow3 {
+    position: absolute;
+    width: 70px;
+    top: -30px;
+    left: -2px;
+}
