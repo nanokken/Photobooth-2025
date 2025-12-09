@@ -126,17 +126,18 @@ export default function Photobooth() {
 
           img.onload = () => {
             const canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
+            canvas.width = 918;
+            canvas.height = 918 * 9 / 16;
             const ctx = canvas.getContext("2d");
 
-            ctx.drawImage(img, 0, 0, img.width, img.height);
+            ctx.drawImage(img, 0, 0, 920, 920 * 9 / 16);
 
-            ctx.drawImage(filter, 0, 0, img.width, img.height);
+            ctx.drawImage(filter, 0, 0, 920, 920 * 9 / 16);
 
             const finalImage = canvas.toDataURL("image/jpeg");
 
             setCapturedImage(finalImage);
+
           };
 
           return null;
@@ -145,6 +146,7 @@ export default function Photobooth() {
         return prev - 1;
       });
     }, 1000);
+
   };
 
   /* CLICK EVENT TIL DELETE KNAP */
@@ -164,29 +166,59 @@ export default function Photobooth() {
     /* opretter formData */
     const formData = new FormData()
     /* tilføjer felter til formDtaa */
-    formData.append("file", blob)
+    formData.append("file", blob, "photo.jpg")
     formData.append("eventSlug", currentEvent.slug)
     formData.append("eventId", currentEvent._id)
+    formData.append("isApproved", true)
 
     try {
-      const response = await fetch(
+      const uploadResponse = await fetch(
         `https://photobooth-lx7n9.ondigitalocean.app/photo`,
         {
           method: "POST",
           body: formData
         });
 
-        const data = await response.json()
+        const uploadData = await uploadResponse.json()
 
-        if (!response.ok) {
-          console.error("Upload fejlede", data)
-        } else {
+        if (!uploadResponse.ok) {
+          console.error("Upload fejlede", uploadData)
+          return;
+        }
 
-          
-          console.log("Image uploaded successfully:", data)
+          console.log("Image uploaded successfully:", uploadData)
+
+          const photoId = uploadData.data._id
+
+          if (!photoId) {
+            console.error("Kunne ikke finde id for billedet", error)
+            return;
+          }
+
+          const patchResponse = await fetch(
+            `https://photobooth-lx7n9.ondigitalocean.app/photo/${photoId}`,
+            {
+              method: "PATCH", 
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                isApproved: true
+              })
+            }
+          );
+
+          const patchData = await patchResponse.json()
+
+          if(!patchResponse.ok) {
+            console.error("PATCH fejlede:", patchData)
+            return;
+          }
+
+          console.log("Photo approved successfully:", patchData)
       
           setCapturedImage(null)
-        }
+    
 
     } catch (error) {
       console.error("fejl i at sende til API: ", error)
@@ -236,7 +268,8 @@ export default function Photobooth() {
           mirrored={true}
           screenshotFormat="image/jpeg"
           className={styles.webcam}
-        />}
+        />
+        }
         {/* filter-billedet */}
         <img
           src={filters[filterIndex]}
@@ -251,14 +284,15 @@ export default function Photobooth() {
         {capturedImage && (
           <img src={capturedImage} alt="Captured" className={styles.preview} />
         )}
-      </div>
       {/* dekorationen i venstre øvre hjørne af webcammet */}
       <img
         src="/images/photoboothDecor.png"
         alt="Christmas decoration"
         className={styles.decor}
       />
+      </div>
       {/* knapperne til at gå til næste eller sidste filter */}
+      {!capturedImage && !countdown && 
       <Button
         type="manageFilter"
         onClick1={() => {
@@ -269,7 +303,7 @@ export default function Photobooth() {
             (prev) => (prev - 1 + filters.length) % filters.length
           );
         }}
-      />
+      />}
       {/* load knappen til at tage billede når der ikke er preview image */}
       {!capturedImage && (
           <Button type="submit" onClick={capturePhoto} />

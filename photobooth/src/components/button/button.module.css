@@ -108,10 +108,12 @@
     /* placerer frem og tilbage knappers højde på side - padding påvirker hvor langt inde på siden de står*/
     position: relative;
     top: 25vh;
-    width: 100%;
+    width: 100vw;
+    max-width: 1100px;
     display: flex;
     justify-content: space-between;
-    padding: 0 12%;
+    padding: 0;
+    margin: 0 auto;
 }
 
 .prevFilter:hover, .nextFilter:hover {
