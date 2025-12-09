@@ -1,0 +1,21 @@
+{
+  "name": "photobooth-2025",
+  "version": "1.0.0",
+  "description": "sådan skal du gøre\r ## backend install\r ude i roden (C:\\Users\\Elev\\Desktop\\GITHUB_FILES\\Photobooth-2025>) sådan burde det se ud, åben intergraded terminal og skriv følgende\r - **npm init -y**\r - **npm i bcryptjs cors dotenv express jsonwebtoken multer**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nanokken/Photobooth-2025.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/nanokken/Photobooth-2025/issues"
+  },
+  "homepage": "https://github.com/nanokken/Photobooth-2025#readme"
+}

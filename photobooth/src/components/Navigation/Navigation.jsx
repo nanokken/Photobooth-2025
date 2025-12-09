@@ -65,7 +65,7 @@ export default function Navigation() {
           🏠 Home
         </Link>
         <Link
-          to="/carousel"
+          to="/carousel?eventSlug=skolefest-2025"
           className={styles.menuItem}
           onClick={() => setIsOpen(false)}
         >
