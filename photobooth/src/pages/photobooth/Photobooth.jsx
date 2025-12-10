@@ -137,6 +137,7 @@ export default function Photobooth() {
             const finalImage = canvas.toDataURL("image/jpeg");
 
             setCapturedImage(finalImage);
+
           };
 
           return null;
@@ -145,6 +146,7 @@ export default function Photobooth() {
         return prev - 1;
       });
     }, 1000);
+
   };
 
   /* CLICK EVENT TIL DELETE KNAP */
@@ -170,24 +172,53 @@ export default function Photobooth() {
     formData.append("isApproved", true)
 
     try {
-      const response = await fetch(
+      const uploadResponse = await fetch(
         `https://photobooth-lx7n9.ondigitalocean.app/photo`,
         {
           method: "POST",
           body: formData
         });
 
-        const data = await response.json()
+        const uploadData = await uploadResponse.json()
 
-        if (!response.ok) {
-          console.error("Upload fejlede", data)
-        } else {
+        if (!uploadResponse.ok) {
+          console.error("Upload fejlede", uploadData)
+          return;
+        }
 
-          
-          console.log("Image uploaded successfully:", data)
+          console.log("Image uploaded successfully:", uploadData)
+
+          const photoId = uploadData.data._id
+
+          if (!photoId) {
+            console.error("Kunne ikke finde id for billedet", error)
+            return;
+          }
+
+          const patchResponse = await fetch(
+            `https://photobooth-lx7n9.ondigitalocean.app/photo/${photoId}`,
+            {
+              method: "PATCH", 
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                isApproved: true
+              })
+            }
+          );
+
+          const patchData = await patchResponse.json()
+
+          if(!patchResponse.ok) {
+            console.error("PATCH fejlede:", patchData)
+            return;
+          }
+
+          console.log("Photo approved successfully:", patchData)
       
           setCapturedImage(null)
-        }
+    
 
     } catch (error) {
       console.error("fejl i at sende til API: ", error)

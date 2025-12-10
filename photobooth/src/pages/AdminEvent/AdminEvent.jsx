@@ -10,6 +10,7 @@ export default function AdminEvent() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // create event
   const [newEvent, setNewEvent] = useState({
     title: "",
     slug: "",
@@ -24,6 +25,8 @@ export default function AdminEvent() {
     fetchEvents();
   }, []);
 
+
+// Fetch events from API
   const fetchEvents = async () => {
     setLoadingEvents(true);
     setError("");
@@ -45,6 +48,7 @@ export default function AdminEvent() {
     }
   };
 
+  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setNewEvent((prev) => ({
@@ -53,6 +57,7 @@ export default function AdminEvent() {
     }));
   };
 
+  // Handle create event form submission
   const handleCreateEvent = async (e) => {
     e.preventDefault();
     setError("");
@@ -103,6 +108,8 @@ export default function AdminEvent() {
     }
   };
 
+  // Handle delete event
+
   const handleDeleteEvent = async (id) => {
     if (!window.confirm("Er du sikker på, at du vil slette dette event?"))
       return;
@@ -128,6 +135,8 @@ export default function AdminEvent() {
       setError("Netværksfejl ved sletning af event.");
     }
   };
+
+  // Render component
 
   return (
     <div className={styles.container}>

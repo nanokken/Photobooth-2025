@@ -68,6 +68,9 @@
   pointer-events: none;
 }
 
+/* glbs */
+
+
 /* globes */
 .topDecor::after {
   content: "";

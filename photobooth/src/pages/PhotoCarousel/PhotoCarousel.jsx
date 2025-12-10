@@ -14,6 +14,7 @@ export default function PhotoCarousel() {
   const [error, setError] = useState("");
   const [confetti, setConfetti] = useState([]);
 
+<<<<<<< HEAD
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
@@ -24,6 +25,9 @@ export default function PhotoCarousel() {
   useEffect(() => {
     localStorage.setItem("liked", liked);
   }, [liked]);
+=======
+  // Trigger confetti animation
+>>>>>>> 3e205d527a6361324e9ec2dcdf6e00733a0c149a
 
   const triggerConfetti = () => {
     // generate confetti
@@ -42,10 +46,10 @@ export default function PhotoCarousel() {
 
     setConfetti(pieces);
 
-    // confetti stop 4.5sec
     setTimeout(() => setConfetti([]), 4500);
   };
 
+<<<<<<< HEAD
   // const newState = !liked;
   // setLiked(newState);
 
@@ -54,6 +58,9 @@ export default function PhotoCarousel() {
   // }
 
   // FETCH PHOTOS
+=======
+  // FETCH PHOTOS FOR EVENT
+>>>>>>> 3e205d527a6361324e9ec2dcdf6e00733a0c149a
   useEffect(() => {
     const fetchPhotos = async () => {
       if (!eventSlug) {
@@ -65,6 +72,8 @@ export default function PhotoCarousel() {
       setLoading(true);
       setError("");
       setPhotos([]);
+
+      // Fetch from API
 
       try {
         console.log("Carousel – using eventSlug:", eventSlug);
