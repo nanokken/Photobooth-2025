@@ -14,6 +14,17 @@ export default function PhotoCarousel() {
   const [error, setError] = useState("");
   const [confetti, setConfetti] = useState([]);
 
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("liked") === "true";
+    setLiked(stored);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("liked", liked);
+  }, [liked]);
+
   const triggerConfetti = () => {
     // generate confetti
     const pieces = Array.from({ length: 60 }).map(() => ({
@@ -34,6 +45,13 @@ export default function PhotoCarousel() {
     // confetti stop 4.5sec
     setTimeout(() => setConfetti([]), 4500);
   };
+
+  // const newState = !liked;
+  // setLiked(newState);
+
+  // if (newState) {
+  //   triggerConfetti();
+  // }
 
   // FETCH PHOTOS
   useEffect(() => {
@@ -139,7 +157,21 @@ export default function PhotoCarousel() {
 
   const currentPhoto = photos[currentIndex];
   const url = currentPhoto?.url;
+  const toggleLike = async () => {
+    const response = await fetch(
+      `https://photobooth-lx7n9.ondigitalocean.app/photo/${currentPhoto._id}/like`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ likes: +1 }),
+      }
+    );
 
+    const data = await response.json();
+    console.log(data);
+  };
   // confetti from gift)
   const confettiElements = confetti.map((piece) => (
     <div
@@ -163,6 +195,14 @@ export default function PhotoCarousel() {
         onClick={triggerConfetti}
         title="Klik her 🎁"
       />
+
+      {/* LIKE BUTTON */}
+      <button
+        className={`${styles.likeButton} ${liked ? styles.liked : ""}`}
+        onClick={toggleLike}
+      >
+        {liked ? "❤️ Liked" : "🤍 Like"}
+      </button>
 
       {/* Confetti */}
       {confettiElements}
