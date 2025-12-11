@@ -54,13 +54,15 @@ const filters = [
 export default function Photobooth() {
   /* bruger useParams() til at finde værdien af ID i URL */
   const { id } = useParams();
-  /* useState hooks gemmer state der skal bruges til at opdatere UI */
+  /* useState hooks gemmer state der typisk bruges til at opdatere UI */
   const [currentEvent, setCurrentEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [capturedImage, setCapturedImage] = useState(null);
   const [filterIndex, setFilterIndex] = useState(0)
   const [countdown, setCountdown] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+
 
   /* useref hooks gemmer data eller domreferencer uden at re-render siden */
   const webcamRef = useRef(null);
@@ -120,23 +122,32 @@ export default function Photobooth() {
       setCountdown((prev) => {
         if (prev === 1) {
           clearInterval(timerRef.current);
+          /* henter billedet fra webcam */
           const imageSrc = webcamRef.current.getScreenshot();
+          /* Image() laver et html billede element  */
           const img = new Image();
+          /* sætter src af billede elementet til at være webcambilledet */
           img.src = imageSrc;
 
+          /* opretter img element til filteret  */
           const filter = new Image();
+          /* sætter filter src til at være det samme filter som der er over webcam */
           filter.src = filters[filterIndex];
 
           img.onload = () => {
+            /* laver nyt element "canvas" som senere kan konverteres til datastreng */
             const canvas = document.createElement("canvas");
-            canvas.width = 918;
-            canvas.height = 918 * 9 / 16;
+            /* erklærer canvas dimensioner 60vw virker ikke i JS kode så laver variabel for det*/
+            const vw = window.innerWidth 
+            canvas.width = vw * 0.6;
+            canvas.height = (vw * 0.6) * 9 / 16;
+            
+            /* tegner billede og filter på canvas */
             const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, vw * 0.6, (vw * 0.6 * 9) / 16);
+            ctx.drawImage(filter, 0, 0, (vw * 0.6), (vw * 0.6) * 9 / 16);
 
-            ctx.drawImage(img, 0, 0, 920, 920 * 9 / 16);
-
-            ctx.drawImage(filter, 0, 0, 920, 920 * 9 / 16);
-
+            /* returnere canvas som dataURL (en streng der indeholder billedet) */
             const finalImage = canvas.toDataURL("image/jpeg");
 
             setCapturedImage(finalImage);
@@ -219,7 +230,11 @@ export default function Photobooth() {
           }
 
           console.log("Photo approved successfully:", patchData)
-      
+
+          // Vis success animation
+          setShowSuccess(true);
+          setTimeout(() => setShowSuccess(false), 1500);
+
           setCapturedImage(null)
     
 
@@ -261,13 +276,16 @@ export default function Photobooth() {
     <div className={styles.photobooth}>
       <Baubles />
       <div className={styles.contentContainer}>
-        
-        <h1 className={styles.heading}>{`{${currentEvent.title || "Event"}}`}</h1>
+        <h1 className={styles.heading}>{`{${
+          currentEvent.title || "Event"
+        }}`}</h1>
         <div className={styles.photoAreaContainer}>
           {!capturedImage && !countdown && (
             <PrevBtn
               onClick={() => {
-                setFilterIndex((prev) => (prev - 1 + filters.length) % filters.length);
+                setFilterIndex(
+                  (prev) => (prev - 1 + filters.length) % filters.length
+                );
               }}
             />
           )}
@@ -306,19 +324,26 @@ export default function Photobooth() {
             />
           </div>
           {!capturedImage && !countdown && (
-            <NextBtn onClick={() => {
-              setFilterIndex((prev) => (prev + 1) % filters.length)
-            }}/>
+            <NextBtn
+              onClick={() => {
+                setFilterIndex((prev) => (prev + 1) % filters.length);
+              }}
+            />
           )}
         </div>
         {/* load knappen til at tage billede når der ikke er preview image */}
         {!capturedImage && <StartBtn onClick={capturePhoto} />}
-  
+
         {/* load slet eller send knapperne når der er et preview image */}
         {capturedImage && (
           <SendOrDelBtn onClick1={confirmPreview} onClick2={deletePreview} />
         )}
       </div>
-      </div>
+      {showSuccess && (
+        <div className={styles.successAnimation}>
+          <div className={styles.checkmark}>✓</div>
+        </div>
+      )}
+    </div>
   );
 }
