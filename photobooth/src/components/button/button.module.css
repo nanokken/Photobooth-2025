@@ -15,12 +15,12 @@
 .btnSubmit {
     height: 100%;
     width: 100%;
-    background-color: #1f2766;
+    background-color: #eec35ff9;
     border: none;
     border-radius: 2px;
     font-size: clamp(20px, 5vw, 45px);
     font-family: "Playwrite US Trad";
-    color: #EEC25F;
+    color: #96160F;
     display: flex;
     justify-content: end;
     align-items: end;
@@ -44,6 +44,7 @@
     width: 100%;
     height: 30px;
     background-color: #96160F;
+
 }
 
 .ribbonBow {
@@ -64,7 +65,7 @@
 .confirm, .delete {
     width: 50%;
     height: 100%;
-    background-color: #1f2766;
+    background-color: #eec35ff9;
     border: none;
     border-radius: 2px;
     position: absolute;
@@ -72,7 +73,7 @@
     align-items: end;
     justify-content: center;
     padding: 0px;
-    color: #EEC25F;
+    color: #96160F;
     font-family: "Playwrite US Trad";
     font-size: 30px;
 }
@@ -112,7 +113,7 @@
     position: relative;
     border-radius: 3px;
     border: none;
-    background-color: #1f2766;
+    background-color: #96160F;
     transition: 0.05s;
     box-shadow: 1px 1px 4px rgba(0,0,0,0.6);
 }

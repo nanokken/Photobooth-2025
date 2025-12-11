@@ -28,7 +28,7 @@
 
 /* styling af grå kugle */
 .bauble.grey {
-  background: #dcdcdc;   
+  background: radial-gradient(circle, yellow 10%, grey);   
   z-index: 2;
   left: 90px;
   top: 110px;
@@ -36,7 +36,7 @@
 
 /* styling af gul kugle */
 .bauble.yellow {
-  background: #f3c552;
+  background:radial-gradient(circle, tomato 15%, grey) ;
   left: 150px;
   top: 60px;
 }
