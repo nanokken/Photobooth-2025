@@ -120,23 +120,32 @@ export default function Photobooth() {
       setCountdown((prev) => {
         if (prev === 1) {
           clearInterval(timerRef.current);
+          /* henter billedet fra webcam */
           const imageSrc = webcamRef.current.getScreenshot();
+          /* Image() laver et html billede element  */
           const img = new Image();
+          /* sætter src af billede elementet til at være webcambilledet */
           img.src = imageSrc;
 
+          /* opretter img element til filteret  */
           const filter = new Image();
+          /* sætter filter src til at være det samme filter som der er over webcam */
           filter.src = filters[filterIndex];
 
           img.onload = () => {
+            /* laver nyt element "canvas" */
             const canvas = document.createElement("canvas");
-            canvas.width = 918;
-            canvas.height = 918 * 9 / 16;
+            /* erklærer canvas dimensioner 60vw virker ikke i JS kode så laver variabel for det*/
+            const vw = window.innerWidth 
+            canvas.width = vw * 0.6;
+            canvas.height = (vw * 0.6) * 9 / 16;
+            
+            /* tegner billede og filter på canvas */
             const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, vw * 0.6, (vw * 0.6 * 9) / 16);
+            ctx.drawImage(filter, 0, 0, (vw * 0.6), (vw * 0.6) * 9 / 16);
 
-            ctx.drawImage(img, 0, 0, 920, 920 * 9 / 16);
-
-            ctx.drawImage(filter, 0, 0, 920, 920 * 9 / 16);
-
+            /* returnere billede som dataURL (en streng der indeholder billedet) */
             const finalImage = canvas.toDataURL("image/jpeg");
 
             setCapturedImage(finalImage);
