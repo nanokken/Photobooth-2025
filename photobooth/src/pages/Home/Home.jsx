@@ -60,43 +60,46 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Baubles />
-      <h1 className={styles.header}>&#123; Photobooth &#125;</h1>
-
-      <div className={styles.eventsSection}>
-        <h2>Vælg et event</h2>
-
-        {loading && <p>Loading events...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        {events.length > 0 && (
-          <div className={styles.eventsList}>
-            <p>Found {events.length} events</p>
-            {events
-              .filter((event) => event.isPublic)
-              .map((event) => (
-                <div key={event.slug} className={styles.eventCard}>
-                  <h3>{event.title}</h3>
-                  <p className={styles.description}>{event.description}</p>
-                  <p className={styles.dateTime}>
-                    <strong>Start:</strong> {formatDate(event.startsAt)}
-                  </p>
-                  <p className={styles.dateTime}>
-                    <strong>Slut:</strong> {formatDate(event.endsAt)}
-                  </p>
-                  <button
-                    className={styles.selectButton}
-                    onClick={() => handleEventSelect(event._id)}
-                  >
-                    Vælg dette event
-                  </button>
-                </div>
-              ))}
-          </div>
-        )}
-
-        {events.length === 0 && !loading && !error && (
-          <p>Ingen events tilgængelige</p>
-        )}
+    
+      <div className={styles.contentContainer}>
+        <h1 className={styles.header}>&#123; Photobooth &#125;</h1>
+  
+        <div className={styles.eventsSection}>
+          <h2>Vælg et event</h2>
+  
+          {loading && <p>Loading events...</p>}
+          {error && <p style={{ color: "red" }}>{error}</p>}
+  
+          {events.length > 0 && (
+            <div className={styles.eventsList}>
+              <p>Found {events.length} events</p>
+              {events
+                .filter((event) => event.isPublic)
+                .map((event) => (
+                  <div key={event.slug} className={styles.eventCard}>
+                    <h3>{event.title}</h3>
+                    <p className={styles.description}>{event.description}</p>
+                    <p className={styles.dateTime}>
+                      <strong>Start:</strong> {formatDate(event.startsAt)}
+                    </p>
+                    <p className={styles.dateTime}>
+                      <strong>Slut:</strong> {formatDate(event.endsAt)}
+                    </p>
+                    <button
+                      className={styles.selectButton}
+                      onClick={() => handleEventSelect(event._id)}
+                    >
+                      Vælg dette event
+                    </button>
+                  </div>
+                ))}
+            </div>
+          )}
+  
+          {events.length === 0 && !loading && !error && (
+            <p>Ingen events tilgængelige</p>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -20,9 +20,9 @@
 .bauble::before {
   content: "";
   position: absolute;
-  top: -120px;
+  top: -150px;
   width: 2px;
-  height: 120px;
+  height: 150px;
   background: #e3e3e3;
 }
 

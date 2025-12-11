@@ -1,9 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Playwrite+US+Trad:wght@100..400&display=swap");
 
-.container {
+.container{
   min-height: 100vh;
   background: linear-gradient(135deg, #2d8659, #4a9d6e);
   padding: 2rem;
+}
+
+.contentContainer {
   position: relative;
   display: flex;
   flex-direction: column;
