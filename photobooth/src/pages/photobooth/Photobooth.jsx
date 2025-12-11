@@ -133,7 +133,7 @@ export default function Photobooth() {
           filter.src = filters[filterIndex];
 
           img.onload = () => {
-            /* laver nyt element "canvas" */
+            /* laver nyt element "canvas" som senere kan konverteres til datastreng */
             const canvas = document.createElement("canvas");
             /* erklærer canvas dimensioner 60vw virker ikke i JS kode så laver variabel for det*/
             const vw = window.innerWidth 
@@ -145,7 +145,7 @@ export default function Photobooth() {
             ctx.drawImage(img, 0, 0, vw * 0.6, (vw * 0.6 * 9) / 16);
             ctx.drawImage(filter, 0, 0, (vw * 0.6), (vw * 0.6) * 9 / 16);
 
-            /* returnere billede som dataURL (en streng der indeholder billedet) */
+            /* returnere canvas som dataURL (en streng der indeholder billedet) */
             const finalImage = canvas.toDataURL("image/jpeg");
 
             setCapturedImage(finalImage);
