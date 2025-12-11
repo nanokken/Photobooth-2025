@@ -127,3 +127,48 @@ body {
     color: #eec25f;
     z-index: 6;
 }
+
+.successAnimation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  animation: fadeOut 1.5s ease forwards;
+}
+
+/* selve checkmarket */
+.checkmark {
+  font-size: 120px;
+  color: #eec25f;
+  font-weight: bold;
+
+  animation: popIn 0.4s ease forwards;
+}
+
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  60% { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+

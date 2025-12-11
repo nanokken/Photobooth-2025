@@ -54,13 +54,15 @@ const filters = [
 export default function Photobooth() {
   /* bruger useParams() til at finde værdien af ID i URL */
   const { id } = useParams();
-  /* useState hooks gemmer state der skal bruges til at opdatere UI */
+  /* useState hooks gemmer state der typisk bruges til at opdatere UI */
   const [currentEvent, setCurrentEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [capturedImage, setCapturedImage] = useState(null);
   const [filterIndex, setFilterIndex] = useState(0)
   const [countdown, setCountdown] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+
 
   /* useref hooks gemmer data eller domreferencer uden at re-render siden */
   const webcamRef = useRef(null);
@@ -228,7 +230,11 @@ export default function Photobooth() {
           }
 
           console.log("Photo approved successfully:", patchData)
-      
+
+          // Vis success animation
+          setShowSuccess(true);
+          setTimeout(() => setShowSuccess(false), 1500);
+
           setCapturedImage(null)
     
 
@@ -270,13 +276,16 @@ export default function Photobooth() {
     <div className={styles.photobooth}>
       <Baubles />
       <div className={styles.contentContainer}>
-        
-        <h1 className={styles.heading}>{`{${currentEvent.title || "Event"}}`}</h1>
+        <h1 className={styles.heading}>{`{${
+          currentEvent.title || "Event"
+        }}`}</h1>
         <div className={styles.photoAreaContainer}>
           {!capturedImage && !countdown && (
             <PrevBtn
               onClick={() => {
-                setFilterIndex((prev) => (prev - 1 + filters.length) % filters.length);
+                setFilterIndex(
+                  (prev) => (prev - 1 + filters.length) % filters.length
+                );
               }}
             />
           )}
@@ -315,19 +324,26 @@ export default function Photobooth() {
             />
           </div>
           {!capturedImage && !countdown && (
-            <NextBtn onClick={() => {
-              setFilterIndex((prev) => (prev + 1) % filters.length)
-            }}/>
+            <NextBtn
+              onClick={() => {
+                setFilterIndex((prev) => (prev + 1) % filters.length);
+              }}
+            />
           )}
         </div>
         {/* load knappen til at tage billede når der ikke er preview image */}
         {!capturedImage && <StartBtn onClick={capturePhoto} />}
-  
+
         {/* load slet eller send knapperne når der er et preview image */}
         {capturedImage && (
           <SendOrDelBtn onClick1={confirmPreview} onClick2={deletePreview} />
         )}
       </div>
-      </div>
+      {showSuccess && (
+        <div className={styles.successAnimation}>
+          <div className={styles.checkmark}>✓</div>
+        </div>
+      )}
+    </div>
   );
 }
