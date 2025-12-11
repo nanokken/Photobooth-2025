@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import styles from "./photobooth.module.css";
 import Webcam from "react-webcam";
 import Baubles from "../../components/baubles/Baubles";
-import Button from "../../components/button/Button";
+import StartBtn from "../../components/button/StartBtn";
+import SendOrDelBtn from "../../components/button/SendOrDelBtn";
 
 
 /* IMPORT AF FILTERS */
@@ -25,6 +26,8 @@ import filter15 from "../../assets/Filter/filter15.png";
 import filter16 from "../../assets/Filter/filter16.png";
 import filter17 from "../../assets/Filter/filter17.png";
 import filter18 from "../../assets/Filter/filter18.png";
+import PrevBtn from "../../components/button/PrevBtn";
+import NextBtn from "../../components/button/NextBtn";
 
 /* henter filtre ned i et array */
 const filters = [
@@ -238,8 +241,6 @@ export default function Photobooth() {
           alt="Christmas decoration"
           className={styles.decor}
         />
-        <Button type="manageFilter" />
-        <Button type="submit" />
         <div className={styles.loading}>Loading event...</div>
       </div>
     );
@@ -259,60 +260,65 @@ export default function Photobooth() {
   return (
     <div className={styles.photobooth}>
       <Baubles />
-      <h1 className={styles.heading}>{`{${currentEvent.title || "Event"}}`}</h1>
-      <div className={styles.photoArea}>
-        {/* fjerner webcamkomponent hvis der er er et preview image */}
-        {!capturedImage && <Webcam
-          audio={false}
-          ref={webcamRef}
-          mirrored={true}
-          screenshotFormat="image/jpeg"
-          className={styles.webcam}
-        />
-        }
-        {/* filter-billedet */}
-        <img
-          src={filters[filterIndex]}
-          alt={`Filter ${filterIndex}`}
-          className={styles.filter}
-        />
-        {/* viser countdown hvis countdown ikke er null eller false */}
-        {countdown && (
-            <div className={styles.countdown}>{countdown}</div>
-        )}
-        {/* hvis der er et preview image skal det vises */}
+      <div className={styles.contentContainer}>
+        
+        <h1 className={styles.heading}>{`{${currentEvent.title || "Event"}}`}</h1>
+        <div className={styles.photoAreaContainer}>
+          {!capturedImage && !countdown && (
+            <PrevBtn
+              onClick={() => {
+                setFilterIndex((prev) => (prev - 1 + filters.length) % filters.length);
+              }}
+            />
+          )}
+          <div className={styles.photoArea}>
+            {/* fjerner webcamkomponent hvis der er er et preview image */}
+            {!capturedImage && (
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                mirrored={true}
+                screenshotFormat="image/jpeg"
+                className={styles.webcam}
+              />
+            )}
+            {/* filter-billedet */}
+            <img
+              src={filters[filterIndex]}
+              alt={`Filter ${filterIndex}`}
+              className={styles.filter}
+            />
+            {/* viser countdown hvis countdown ikke er null eller false */}
+            {countdown && <div className={styles.countdown}>{countdown}</div>}
+            {/* hvis der er et preview image skal det vises */}
+            {capturedImage && (
+              <img
+                src={capturedImage}
+                alt="Captured"
+                className={styles.preview}
+              />
+            )}
+            {/* dekorationen i venstre øvre hjørne af webcammet */}
+            <img
+              src="/images/photoboothDecor.png"
+              alt="Christmas decoration"
+              className={styles.decor}
+            />
+          </div>
+          {!capturedImage && !countdown && (
+            <NextBtn onClick={() => {
+              setFilterIndex((prev) => (prev + 1) % filters.length)
+            }}/>
+          )}
+        </div>
+        {/* load knappen til at tage billede når der ikke er preview image */}
+        {!capturedImage && <StartBtn onClick={capturePhoto} />}
+  
+        {/* load slet eller send knapperne når der er et preview image */}
         {capturedImage && (
-          <img src={capturedImage} alt="Captured" className={styles.preview} />
+          <SendOrDelBtn onClick1={confirmPreview} onClick2={deletePreview} />
         )}
-      {/* dekorationen i venstre øvre hjørne af webcammet */}
-      <img
-        src="/images/photoboothDecor.png"
-        alt="Christmas decoration"
-        className={styles.decor}
-      />
       </div>
-      {/* knapperne til at gå til næste eller sidste filter */}
-      {!capturedImage && !countdown && 
-      <Button
-        type="manageFilter"
-        onClick1={() => {
-          setFilterIndex((prev) => (prev + 1) % filters.length);
-        }}
-        onClick2={() => {
-          setFilterIndex(
-            (prev) => (prev - 1 + filters.length) % filters.length
-          );
-        }}
-      />}
-      {/* load knappen til at tage billede når der ikke er preview image */}
-      {!capturedImage && (
-          <Button type="submit" onClick={capturePhoto} />
-      )}
-
-      {/* load slet eller send knapperne når der er et preview image */}
-      {capturedImage && (
-        <Button type="confirmOrDelete" onClick1={confirmPreview} onClick2={deletePreview}/>
-      )}
-    </div>
+      </div>
   );
 }

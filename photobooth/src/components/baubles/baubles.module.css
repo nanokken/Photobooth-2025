@@ -1,6 +1,6 @@
 /* container kuglerne placeres i */
 .baubles {
-  position: relative;
+  position: absolute;
   width: 200px;   
   height: 200px;
 }
@@ -16,7 +16,7 @@
   align-items: flex-start;
 }
 
-/* Laver et pseudoelemnt som styles til at være snoren */
+/* Laver et pseudoelemnt som styles som snoren */
 .bauble::before {
   content: "";
   position: absolute;
