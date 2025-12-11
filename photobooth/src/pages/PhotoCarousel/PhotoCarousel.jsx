@@ -13,8 +13,8 @@ export default function PhotoCarousel() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [confetti, setConfetti] = useState([]);
-
   const [liked, setLiked] = useState(false);
+  const [lastFetchTime, setLastFetchTime] = useState(Date.now());
 
   useEffect(() => {
     const stored = localStorage.getItem("liked") === "true";
@@ -46,86 +46,105 @@ export default function PhotoCarousel() {
   };
 
   // FETCH PHOTOS
-  useEffect(() => {
-    const fetchPhotos = async () => {
-      if (!eventSlug) {
-        setError("Missing eventSlug in URL.");
-        setLoading(false);
+  const fetchPhotos = async () => {
+    if (!eventSlug) {
+      setError("Missing eventSlug in URL.");
+      setLoading(false);
+      return;
+    }
+
+    setError("");
+
+    try {
+      console.log("Carousel – fetching photos for:", eventSlug);
+
+      const res = await fetch(
+        `${API_URL}/photos?eventSlug=${encodeURIComponent(eventSlug)}`
+      );
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || "Could not load photos.");
         return;
       }
 
-      setLoading(true);
-      setError("");
-      setPhotos([]);
+      // Extract photos array
+      let photosArray = [];
+      if (Array.isArray(data)) {
+        photosArray = data;
+      } else if (Array.isArray(data.data)) {
+        photosArray = data.data;
+      } else if (data.data && Array.isArray(data.data.photos)) {
+        photosArray = data.data.photos;
+      } else if (Array.isArray(data.photos)) {
+        photosArray = data.photos;
+      }
 
-      // Fetch from API
+      if (!Array.isArray(photosArray)) {
+        photosArray = [];
+      }
 
-      try {
-        console.log("Carousel – using eventSlug:", eventSlug);
+      // Sort by creation date
+      const sorted = [...photosArray].sort((a, b) => {
+        if (!a.createdAt || !b.createdAt) return 0;
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
 
-        const res = await fetch(
-          `${API_URL}/photos?eventSlug=${encodeURIComponent(eventSlug)}`
-        );
-        const data = await res.json();
-        console.log(
-          "Carousel – raw API response:",
-          data,
-          "status:",
-          res.status
-        );
+      // Check if we got new photos
+      const hasNewPhotos = sorted.length > photos.length;
 
-        if (!res.ok) {
-          setError(data.message || "Could not load photos.");
-          return;
-        }
+      setPhotos(sorted);
+      setLastFetchTime(Date.now());
 
-        // try different possible response structures
-        let photosArray = [];
-        if (Array.isArray(data)) {
-          photosArray = data;
-        } else if (Array.isArray(data.data)) {
-          photosArray = data.data;
-        } else if (data.data && Array.isArray(data.data.photos)) {
-          photosArray = data.data.photos;
-        } else if (Array.isArray(data.photos)) {
-          photosArray = data.photos;
-        }
+      // If we have new photos and we're at the end of the old list, show newest
+      if (hasNewPhotos && currentIndex >= photos.length - 1) {
+        setCurrentIndex(0); // Start with newest photo
+      }
 
-        console.log("Carousel – extracted photosArray:", photosArray);
-
-        if (!Array.isArray(photosArray) || photosArray.length === 0) {
-          setPhotos([]);
-          return;
-        }
-
-        // sort if created at
-        const sorted = [...photosArray].sort((a, b) => {
-          if (!a.createdAt || !b.createdAt) return 0;
-          return new Date(b.createdAt) - new Date(a.createdAt);
-        });
-
-        setPhotos(sorted);
-
-        // random start index
+      // If it's the first load, start at random index
+      if (loading && sorted.length > 0) {
         const startIndex = Math.floor(Math.random() * sorted.length);
         setCurrentIndex(startIndex);
-      } catch (err) {
-        console.error("Carousel – network error:", err);
-        setError("Network error. Try again.");
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (err) {
+      console.error("Carousel – network error:", err);
+      setError("Network error. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  // Initial fetch
+  useEffect(() => {
     fetchPhotos();
   }, [eventSlug]);
+
+  // Auto-refetch every 30 seconds to check for new photos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Auto-refetching photos...");
+      fetchPhotos();
+    }, 30000); // 30 seconds
+
+    return () => clearInterval(interval);
+  }, [eventSlug, photos.length]);
 
   // AUTO SLIDE 5 sec
   useEffect(() => {
     if (photos.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % photos.length);
+      setCurrentIndex((prev) => {
+        const nextIndex = (prev + 1) % photos.length;
+
+        // If we've cycled through all photos, fetch new ones
+        if (nextIndex === 0) {
+          console.log("Completed full cycle, checking for new photos...");
+          fetchPhotos();
+        }
+
+        return nextIndex;
+      });
     }, 5000);
 
     return () => clearInterval(interval);
