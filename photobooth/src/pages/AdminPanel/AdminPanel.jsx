@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 import styles from "./AdminPanel.module.css";
 
 const API_URL = "https://photobooth-lx7n9.ondigitalocean.app";
@@ -19,6 +23,16 @@ export default function AdminPanel() {
 
   const navigate = useNavigate();
 
+  // Toast helpers
+  const notifySuccess = (msg) =>
+    toast.success(msg, { position: "top-center", theme: "colored" });
+
+  const notifyError = (msg) =>
+    toast.error(msg, { position: "top-center", theme: "colored" });
+
+  const notifyInfo = (msg) =>
+    toast.info(msg, { position: "top-center", theme: "dark" });
+
   // HENT EVENTS
   useEffect(() => {
     const fetchEvents = async () => {
@@ -31,11 +45,14 @@ export default function AdminPanel() {
           const eventsArray = data.data || data;
           setEvents(eventsArray);
         } else {
-          setError(data.message || "Kunne ikke hente events.");
+          const msg = data.message || "Kunne ikke hente events.";
+          setError(msg);
+          notifyError("❌ " + msg);
         }
       } catch (err) {
         console.error(err);
         setError("Netværksfejl ved hentning af events.");
+        notifyError("❌ Netværksfejl ved hentning af events.");
       } finally {
         setLoadingEvents(false);
       }
@@ -61,11 +78,9 @@ export default function AdminPanel() {
 
     setSelectedEvent(eventObj);
     fetchPhotosForEvent(eventObj);
-
   }, [selectedEventId]);
 
   // Fetch photos for selected event
-
   const fetchPhotosForEvent = async (eventObj) => {
     setLoadingPhotos(true);
     setPhotoMessage("");
@@ -86,23 +101,27 @@ export default function AdminPanel() {
         });
         setPhotos(sorted);
         if (sorted.length === 0) {
-          setPhotoMessage("Ingen billeder for dette event endnu.");
+          const msg = "Ingen billeder for dette event endnu.";
+          setPhotoMessage(msg);
+          notifyInfo("ℹ️ " + msg);
         }
       } else {
-        setError(data.message || "Kunne ikke hente billeder.");
+        const msg = data.message || "Kunne ikke hente billeder.";
+        setError(msg);
         setPhotos([]);
+        notifyError("❌ " + msg);
       }
     } catch (err) {
       console.error(err);
       setError("Netværksfejl ved hentning af billeder.");
       setPhotos([]);
+      notifyError("❌ Netværksfejl ved hentning af billeder.");
     } finally {
       setLoadingPhotos(false);
     }
   };
 
   // Delete photo
-
   const handleDeletePhoto = async (photoId) => {
     if (!selectedEvent) return;
     if (!window.confirm("Slet dette billede?")) return;
@@ -124,24 +143,28 @@ export default function AdminPanel() {
       const data = await res.json().catch(() => ({}));
 
       if (res.ok) {
-        setPhotoMessage("Billede slettet.");
+        const msg = "Billede slettet.";
+        setPhotoMessage(msg);
+        notifySuccess("✅ " + msg);
         setPhotos((prev) => prev.filter((p) => (p._id || p.id) !== photoId));
       } else {
-        setError(data.message || "Kunne ikke slette billede.");
+        const msg = data.message || "Kunne ikke slette billede.";
+        setError(msg);
+        notifyError("❌ " + msg);
       }
     } catch (err) {
       console.error(err);
       setError("Netværksfejl ved sletning af billede.");
+      notifyError("❌ Netværksfejl ved sletning af billede.");
     } finally {
       setDeletingPhotoId(null);
     }
   };
 
-  // Render component
-
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>Admin – Billeder pr. event</h1>
+      <ToastContainer />
+      <h1 className={styles.heading}>🎄 Nissens Foto-Kontrolrum 📷</h1>
 
       {/* SELECT EVENT */}
       <section className={styles.section}>
@@ -155,9 +178,20 @@ export default function AdminPanel() {
           </p>
         ) : (
           <select
-            className={styles.select}
+            className={styles.styledSelect}
             value={selectedEventId}
-            onChange={(e) => setSelectedEventId(e.target.value)}
+            onChange={(e) => {
+              const id = e.target.value;
+              setSelectedEventId(id);
+
+              const eventObj = events.find((ev) => (ev._id || ev.id) === id);
+              if (eventObj) {
+                toast.info(`🎄 Event valgt: ${eventObj.title}`, {
+                  position: "top-right",
+                  theme: "colored",
+                });
+              }
+            }}
           >
             <option value="">— Vælg et event —</option>
             {events.map((event) => {
@@ -172,27 +206,27 @@ export default function AdminPanel() {
         )}
       </section>
 
-      {/* carusel btn */}
+      {/* CAROUSEL BUTTON */}
       {selectedEvent && (
         <section className={styles.section}>
           <button
-            className={styles.openCarouselButton}
+            className={styles.carouselBtn}
             onClick={() =>
               navigate(
                 `/carousel?eventSlug=${encodeURIComponent(selectedEvent.slug)}`
               )
             }
           >
-            Åbn slideshow for dette event
+            🎁 Galleri: Hvem var uartig i år?
           </button>
         </section>
       )}
 
-      {/* feedback */}
+      {/* FEEDBACK */}
       {error && <p className={styles.error}>{error}</p>}
       {photoMessage && <p className={styles.success}>{photoMessage}</p>}
 
-      {/* photo grid */}
+      {/* PHOTOS GRID – Billede nr + Oprettet + Slet billede */}
       {selectedEvent && (
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>

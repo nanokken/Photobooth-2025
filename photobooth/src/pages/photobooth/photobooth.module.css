@@ -1,12 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Playwrite+US+Trad:wght@100..400&display=swap");
 
+/* Photobooth page styles */
 .photobooth {
   background-color: #238566;
   height: 100vh;
   position: relative;
 }
 
-body { 
+body {
     background-color: #238566;
 }
 
@@ -26,6 +27,7 @@ body {
   white-space: nowrap;
 }
 
+/* Photo area styles */
 .photoArea {
   background-color: white;
   width: 920px;
@@ -56,7 +58,7 @@ body {
     width: 100%;
     height: 100%;
 
-    
+
     z-index: 3;
 }
 

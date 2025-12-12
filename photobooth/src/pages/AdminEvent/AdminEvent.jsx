@@ -3,6 +3,7 @@ import styles from "./AdminEvent.module.css";
 
 const API_URL = "https://photobooth-lx7n9.ondigitalocean.app";
 
+// Admin Event Page – Create and Delete Events
 export default function AdminEvent() {
   const [events, setEvents] = useState([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
@@ -10,7 +11,7 @@ export default function AdminEvent() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // create event
+  // create event 
   const [newEvent, setNewEvent] = useState({
     title: "",
     slug: "",
