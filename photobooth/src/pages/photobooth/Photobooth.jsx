@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import styles from "./photobooth.module.css";
 import Webcam from "react-webcam";
 import Baubles from "../../components/baubles/Baubles";
-import Button from "../../components/button/Button";
+import StartBtn from "../../components/button/StartBtn";
+import SendOrDelBtn from "../../components/button/SendOrDelBtn";
 
 
 /* IMPORT AF FILTERS */
@@ -25,6 +26,8 @@ import filter15 from "../../assets/Filter/filter15.png";
 import filter16 from "../../assets/Filter/filter16.png";
 import filter17 from "../../assets/Filter/filter17.png";
 import filter18 from "../../assets/Filter/filter18.png";
+import PrevBtn from "../../components/button/PrevBtn";
+import NextBtn from "../../components/button/NextBtn";
 
 /* henter filtre ned i et array */
 const filters = [
@@ -51,13 +54,15 @@ const filters = [
 export default function Photobooth() {
   /* bruger useParams() til at finde værdien af ID i URL */
   const { id } = useParams();
-  /* useState hooks gemmer state der skal bruges til at opdatere UI */
+  /* useState hooks gemmer state der typisk bruges til at opdatere UI */
   const [currentEvent, setCurrentEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [capturedImage, setCapturedImage] = useState(null);
   const [filterIndex, setFilterIndex] = useState(0)
   const [countdown, setCountdown] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+
 
   /* useref hooks gemmer data eller domreferencer uden at re-render siden */
   const webcamRef = useRef(null);
@@ -117,23 +122,32 @@ export default function Photobooth() {
       setCountdown((prev) => {
         if (prev === 1) {
           clearInterval(timerRef.current);
+          /* henter billedet fra webcam */
           const imageSrc = webcamRef.current.getScreenshot();
+          /* Image() laver et html billede element  */
           const img = new Image();
+          /* sætter src af billede elementet til at være webcambilledet */
           img.src = imageSrc;
 
+          /* opretter img element til filteret  */
           const filter = new Image();
+          /* sætter filter src til at være det samme filter som der er over webcam */
           filter.src = filters[filterIndex];
 
           img.onload = () => {
+            /* laver nyt element "canvas" som senere kan konverteres til datastreng */
             const canvas = document.createElement("canvas");
-            canvas.width = 918;
-            canvas.height = 918 * 9 / 16;
+            /* erklærer canvas dimensioner 60vw virker ikke i JS kode så laver variabel for det*/
+            const vw = window.innerWidth 
+            canvas.width = vw * 0.6;
+            canvas.height = (vw * 0.6) * 9 / 16;
+            
+            /* tegner billede og filter på canvas */
             const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, vw * 0.6, (vw * 0.6 * 9) / 16);
+            ctx.drawImage(filter, 0, 0, (vw * 0.6), (vw * 0.6) * 9 / 16);
 
-            ctx.drawImage(img, 0, 0, 920, 920 * 9 / 16);
-
-            ctx.drawImage(filter, 0, 0, 920, 920 * 9 / 16);
-
+            /* returnere canvas som dataURL (en streng der indeholder billedet) */
             const finalImage = canvas.toDataURL("image/jpeg");
 
             setCapturedImage(finalImage);
@@ -216,7 +230,11 @@ export default function Photobooth() {
           }
 
           console.log("Photo approved successfully:", patchData)
-      
+
+          // Vis success animation
+          setShowSuccess(true);
+          setTimeout(() => setShowSuccess(false), 1500);
+
           setCapturedImage(null)
     
 
@@ -238,8 +256,6 @@ export default function Photobooth() {
           alt="Christmas decoration"
           className={styles.decor}
         />
-        <Button type="manageFilter" />
-        <Button type="submit" />
         <div className={styles.loading}>Loading event...</div>
       </div>
     );
@@ -259,59 +275,74 @@ export default function Photobooth() {
   return (
     <div className={styles.photobooth}>
       <Baubles />
-      <h1 className={styles.heading}>{`{${currentEvent.title || "Event"}}`}</h1>
-      <div className={styles.photoArea}>
-        {/* fjerner webcamkomponent hvis der er er et preview image */}
-        {!capturedImage && <Webcam
-          audio={false}
-          ref={webcamRef}
-          mirrored={true}
-          screenshotFormat="image/jpeg"
-          className={styles.webcam}
-        />
-        }
-        {/* filter-billedet */}
-        <img
-          src={filters[filterIndex]}
-          alt={`Filter ${filterIndex}`}
-          className={styles.filter}
-        />
-        {/* viser countdown hvis countdown ikke er null eller false */}
-        {countdown && (
-            <div className={styles.countdown}>{countdown}</div>
-        )}
-        {/* hvis der er et preview image skal det vises */}
-        {capturedImage && (
-          <img src={capturedImage} alt="Captured" className={styles.preview} />
-        )}
-      {/* dekorationen i venstre øvre hjørne af webcammet */}
-      <img
-        src="/images/photoboothDecor.png"
-        alt="Christmas decoration"
-        className={styles.decor}
-      />
-      </div>
-      {/* knapperne til at gå til næste eller sidste filter */}
-      {!capturedImage && !countdown && 
-      <Button
-        type="manageFilter"
-        onClick1={() => {
-          setFilterIndex((prev) => (prev + 1) % filters.length);
-        }}
-        onClick2={() => {
-          setFilterIndex(
-            (prev) => (prev - 1 + filters.length) % filters.length
-          );
-        }}
-      />}
-      {/* load knappen til at tage billede når der ikke er preview image */}
-      {!capturedImage && (
-          <Button type="submit" onClick={capturePhoto} />
-      )}
+      <div className={styles.contentContainer}>
+        <h1 className={styles.heading}>{`{${
+          currentEvent.title || "Event"
+        }}`}</h1>
+        <div className={styles.photoAreaContainer}>
+          {!capturedImage && !countdown && (
+            <PrevBtn
+              onClick={() => {
+                setFilterIndex(
+                  (prev) => (prev - 1 + filters.length) % filters.length
+                );
+              }}
+            />
+          )}
+          <div className={styles.photoArea}>
+            {/* fjerner webcamkomponent hvis der er er et preview image */}
+            {!capturedImage && (
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                mirrored={true}
+                screenshotFormat="image/jpeg"
+                className={styles.webcam}
+              />
+            )}
+            {/* filter-billedet */}
+            <img
+              src={filters[filterIndex]}
+              alt={`Filter ${filterIndex}`}
+              className={styles.filter}
+            />
+            {/* viser countdown hvis countdown ikke er null eller false */}
+            {countdown && <div className={styles.countdown}>{countdown}</div>}
+            {/* hvis der er et preview image skal det vises */}
+            {capturedImage && (
+              <img
+                src={capturedImage}
+                alt="Captured"
+                className={styles.preview}
+              />
+            )}
+            {/* dekorationen i venstre øvre hjørne af webcammet */}
+            <img
+              src="/images/photoboothDecor.png"
+              alt="Christmas decoration"
+              className={styles.decor}
+            />
+          </div>
+          {!capturedImage && !countdown && (
+            <NextBtn
+              onClick={() => {
+                setFilterIndex((prev) => (prev + 1) % filters.length);
+              }}
+            />
+          )}
+        </div>
+        {/* load knappen til at tage billede når der ikke er preview image */}
+        {!capturedImage && <StartBtn onClick={capturePhoto} />}
 
-      {/* load slet eller send knapperne når der er et preview image */}
-      {capturedImage && (
-        <Button type="confirmOrDelete" onClick1={confirmPreview} onClick2={deletePreview}/>
+        {/* load slet eller send knapperne når der er et preview image */}
+        {capturedImage && (
+          <SendOrDelBtn onClick1={confirmPreview} onClick2={deletePreview} />
+        )}
+      </div>
+      {showSuccess && (
+        <div className={styles.successAnimation}>
+          <div className={styles.checkmark}>✓</div>
+        </div>
       )}
     </div>
   );

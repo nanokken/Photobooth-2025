@@ -80,10 +80,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  box-shadow:
-    0 0 0 10px #d62828,
-    60px 0 0 10px #f77f00,
-    120px 0 0 10px #fcbf49,
+  box-shadow: 0 0 0 10px #d62828, 60px 0 0 10px #f77f00, 120px 0 0 10px #fcbf49,
     180px 0 0 10px #e63946;
   background: #ffd166;
 }
@@ -93,8 +90,6 @@
   display: none;
 }
 
-
-
 /* decor gift */
 .bottomDecor::after {
   content: "🎁";
@@ -103,7 +98,6 @@
   right: 45px;
   font-size: 26px;
 }
-
 
 .message {
   height: 100vh;
@@ -191,4 +185,17 @@
       scale(0.9);
     opacity: 0;
   }
+}
+
+.likeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  padding: 10px 15px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 3;
 }
