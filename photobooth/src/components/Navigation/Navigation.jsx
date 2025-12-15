@@ -119,7 +119,7 @@ export default function Navigation() {
               <label htmlFor="email">Email</label>
               <input
                 type="email"
-                placeholder="admin@mediacollege.dk"
+                placeholder="test@mail.dk"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -130,7 +130,7 @@ export default function Navigation() {
               <label htmlFor="password">Password</label>
               <input
                 type="password"
-                placeholder="admin"
+                placeholder="password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -141,10 +141,6 @@ export default function Navigation() {
             <button className={styles.loginButton} onClick={handleLogin}>
               Login
             </button>
-            <p className={styles.hint}>
-              Try: admin@mediacollege.dk / admin or guest@mediacollege.dk /
-              guest
-            </p>
           </div>
         </div>
       )}
