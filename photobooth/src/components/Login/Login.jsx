@@ -43,7 +43,7 @@ export default function Login() {
           <label htmlFor="email">Email</label>
           <input
             type="email"
-            placeholder="admin@mediacollege.dk"
+            placeholder="test@mail.dk"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -54,7 +54,7 @@ export default function Login() {
           <label htmlFor="password">Password</label>
           <input
             type="password"
-            placeholder="admin"
+            placeholder="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -63,9 +63,7 @@ export default function Login() {
         </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <button onClick={handleLogin}>Login</button>
-        <p style={{ fontSize: "12px", marginTop: "10px" }}>
-          Try: admin@mediacollege.dk / admin or guest@mediacollege.dk / guest
-        </p>
+        <p style={{ fontSize: "12px", marginTop: "10px" }}></p>
       </div>
     </div>
   );
